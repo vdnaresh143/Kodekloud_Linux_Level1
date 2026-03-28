@@ -1,10 +1,11 @@
+**Task: Group Creation and User Assignment**
+
 The system admin team at xFusionCorp Industries has streamlined access management by implementing group-based access control. Here's what you need to do:
 a. Create a group named nautilus_admin_users across all App servers within the Stratos Datacenter.
 b. Add the user kano into the nautilus_admin_users group on all App servers. If the user doesn't exist, create it as well.
 Note: You can find the infrastructure details by clicking on the Details of all Users and Servers button on the top-right section of the page.
 
-Solutions :
-
+**Solutions :**
 To implement group-based access control across the Stratos Datacenter App servers, you will need to perform these steps on each server (App Server 1, 2, and 3).
 Since you are managing multiple servers, consistency is key to ensuring the nautilus_admin_users group functions correctly for the team.
 
