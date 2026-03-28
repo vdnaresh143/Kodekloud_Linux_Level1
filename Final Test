@@ -1,0 +1,142 @@
+Task 1:
+The system admins at Nautilus have developed scripts to automate routine tasks. Their objective is to deploy these scripts on all app servers within Stratos DC following a defined schedule. However, before the full deployment, they aim to conduct a test using a sample cron job.
+Install the cronie package and start the crond service on all app servers.
+Add the cron job */5 * * * * echo hello > /tmp/cron_text (ensure the cron expression matches exactly) for the root user.
+# Install the cronie package
+sudo yum install -y cronie
+
+# Start the service and set it to launch on boot
+sudo systemctl start crond
+sudo systemctl enable crond
+# Adds the 5-minute hello script to root's crontab
+echo "*/5 * * * * echo hello > /tmp/cron_text" | sudo crontab -u root –
+sudo crontab -u root –l
+ls -l /tmp/cron_text && cat /tmp/cron_text
+
+Task 2:
+The system admins team want to create a user on an app server in Stratos Datacenter. Create the user as per the details given below:
+Create a user named rod with a non-interactive shell on App server 2 in Stratos Datacenter.
+sudo useradd -s /sbin/nologin rod
+sudo cat /etc/passwd
+grep rod /etc/passwd
+
+Task 3:
+To ensure compliance with security standards, the Nautilus project team is implementing restrictions on crontab access, specifically dictating which users are permitted to create or modify cron jobs.
+The assignment is to limit crontab access on App Server 2 according to the following criteria:
+Grant crontab access to the jas user while denying access to the kodekloud_joy user.
+
+echo "jas" | sudo tee -a /etc/cron.allow
+echo "kodekloud_joy" | sudo tee -a /etc/cron.deny
+
+sudo su - jas -c "crontab -e"
+sudo su - kodekloud_joy -c "crontab -e"
+
+Task 4:
+Some directories and files needed to be created on an app server in Stratos Datacenter. Complete this task as per the details mentioned below:
+Create a directory named /opt/itadmin on App server 2 in Stratos Datacenter.
+Further, create a blank file named /opt/itadmin/itadmin.txt .
+
+ssh steve@stapp02
+# Create the directory
+sudo mkdir -p /opt/itadmin
+
+# Create the blank file
+sudo touch /opt/itadmin/itadmin.txt
+
+ls -ld /opt/itadmin
+ls -l /opt/itadmin/itadmin.txt
+
+
+Task 5:
+The security team detected some directories/files with inappropriate permissions on one of the app servers in Stratos Datacenter. Fix the permissions as per details given below:
+There is a directory named /usr/share/data on App server 2 in Stratos Datacenter, change its permissions to 700.
+
+ssh steve@stapp02
+sudo chmod 700 /usr/share/data
+ls -ld /usr/share/data
+
+
+Task 6:
+The development team requires specific logs stored within the Nautilus storage server situated in the Stratos DC. Access the designated location on the server to retrieve the necessary logs. Further, perform below actions:
+Create a tar archive named logs.tar (under natasha's home) of /var/log/ directory.
+Now, create a compressed tar archive as well named logs.tar.gz (under natasha's
+
+sudo tar -cvf /home/natasha/logs.tar /var/log/
+sudo tar -cvzf /home/natasha/logs.tar.gz /var/log/
+ls -lh /home/natasha/logs.tar*
+
+Task 7:
+There is some data on Nautilus App Server 2 in Stratos DC. Data needs to be altered in some of the files. On Nautilus App Server 2, alter the /home/BSD.txt file as per details given below.
+a. Delete all lines containing the word code and save the results in /home/BSD_DELETE.txt file. (Please be aware of case sensitivity)
+b. Replace all occurrences of the word the (look for the exact match) with them and save the results in /home/BSD_REPLACE.txt file.
+Note: Let's say you are asked to replace the word to with from. In that case, make sure not to alter any words containing the string itself, for example; upto, contributor etc.
+
+sudo sh -c "sed '/code/d' /home/BSD.txt > /home/BSD_DELETE.txt"
+sudo sh -c "sed 's/\bthe\b/them/g' /home/BSD.txt > /home/BSD_REPLACE.txt"
+ls -l /home/BSD_DELETE.txt /home/BSD_REPLACE.txt
+
+Task 8:
+Some new requirements have been shared by the Nautilus application development team, a new package need to be installed on all app servers in Stratos Datacenter.
+Install the bind package on all app servers in Stratos Datacenter and start/enable its service.
+
+sudo yum install -y bind
+# Start the service immediately
+sudo systemctl start named
+
+# Enable the service to start automatically at boot
+sudo systemctl enable named
+sudo systemctl status named
+
+
+Task 9:
+On our Storage server in Stratos Datacenter we are having some issues where the nfsuser user is holding hundreds of processes, which is degrading the performance of the server. Therefore, we have a requirement to limit its maximum processes. 
+Please set its maximum process limits as below:
+a. soft limit = 1025
+b. hard_limit = 2024
+
+sudo sh -c 'cat << EOF >> /etc/security/limits.conf
+nfsuser          soft    nproc           1025
+nfsuser          hard    nproc           2024
+EOF'
+
+grep "nfsuser" /etc/security/limits.conf
+ulimit -u
+
+
+Task 10:
+During recent servers audit, its was observed that some cleanup is needed on all app servers in Stratos Datacenter. Find below more details:
+Remove logrotate package from all app servers in Stratos Datacenter.
+
+sudo yum remove -y logrotate
+rpm -q logrotate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
